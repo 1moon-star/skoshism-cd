@@ -141,8 +141,11 @@
     font-family:"Mochiy Pop One",sans-serif;font-size:clamp(11px,3.4vw,14px);letter-spacing:.04em;
     color:#fff;-webkit-text-stroke:3.5px #ee7fab;paint-order:stroke fill;white-space:nowrap;
   }
-  .label .center-img{position:absolute;left:50%;top:9%;transform:translateX(-50%);width:66%;max-height:36%;object-fit:contain;display:block}
-  .label.has-img .center,.label.has-img .lf,.label.has-img .lf2{display:none}
+  .label .center-img{position:absolute;inset:3%;width:94%;height:94%;object-fit:contain;display:block;z-index:3}
+  /* 로고가 있으면 라벨을 로고로 가득 채우고, 글씨·장식·가운데 구멍은 숨김 */
+  .disc.has-img .label .center,.disc.has-img .label .lf,.disc.has-img .label .lf2,
+  .disc.has-img .label svg.ring,.disc.has-img .hub,.disc.has-img .hole{display:none}
+  .disc.has-img .label{width:62%;height:62%;background:#fff;box-shadow:0 0 0 3px #f6b3cb}
   .label .lf{position:absolute;width:20%;left:22%;bottom:20%}
   .label .lf2{position:absolute;width:13%;right:24%;bottom:22%}
   .hub{
@@ -391,7 +394,7 @@
             </text>
           </svg>
           <div class="center">SKOSHISM</div>
-          <img class="center-img" src="center.webp" alt="" onload="this.parentNode.classList.add('has-img')" onerror="if(this.src.endsWith('.webp')){this.src='center.png'}else{this.remove()}">
+          <img class="center-img" src="center.webp" alt="" onload="this.closest('.disc').classList.add('has-img')" onerror="if(this.src.endsWith('.webp')){this.src='center.png'}else{this.remove()}">
           <svg class="lf" viewBox="0 0 40 40" fill="#f08bb2" aria-hidden="true"><use href="#star"/></svg>
           <svg class="lf2" viewBox="0 0 30 40" fill="#ffe066" aria-hidden="true"><use href="#bolt"/></svg>
         </div>
