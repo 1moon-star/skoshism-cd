@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SKOSHISM — Original Songs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Mochiy+Pop+One&family=Montserrat:wght@500;700;800&family=Noto+Sans+KR:wght@400;500;700&family=Noto+Sans+JP:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#fff8fa;
+    --ink:#2b2230;
+    --ink-soft:#6e6372;
+    /* 메인 핑크 (변수 이름은 이전 버전과 같게 유지) */
+    --blue:#f6b3cb;
+    --blue-mid:#f08bb2;
+    --blue-deep:#d14d84;
+    --blue-pale:#fde7ef;
+    --yellow:#ffe066;
+    --pink:#f08bb2;
+    --gray:#ad9fab;
+    /* 멤버 컬러 */
+    --nino:#f6a43c;
+    --koyo:#cc2027;
+    --oto:#4a2d4f;
+    --iro:#bfe6fb;
+    --robo:#b4ff1a;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{min-height:100%}
+  body{
+    font-family:"Noto Sans KR","Noto Sans JP",system-ui,sans-serif;
+    color:var(--ink);
+    background-color:var(--paper);
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .4 0 0 0 0 .45 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+
+  /* ---------- 배경 리본 ---------- */
+  .bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+  .bg svg{position:absolute;width:140%;left:-20%}
+  .bg .r1{top:8%;opacity:.5}
+  .bg .r2{bottom:4%;opacity:.4;transform:scaleX(-1)}
+  .wrap{position:relative;z-index:1;max-width:480px;margin:0 auto;padding:0 16px 44px}
+
+  /* ---------- 상단 도트 밴드 ---------- */
+  .dots{
+    height:36px;margin:0 -16px;
+    height:12px;
+    background:linear-gradient(90deg,var(--nino) 0 20%,var(--koyo) 20% 40%,var(--oto) 40% 60%,var(--iro) 60% 80%,var(--robo) 80% 100%);
+  }
+  .stripe{height:6px;margin:4px -16px 0;background:repeating-linear-gradient(90deg,var(--blue) 0 14px,transparent 14px 20px)}
+
+  /* ---------- 헤더 ---------- */
+  header{position:relative;text-align:center;padding:18px 0 4px}
+  h1{
+    font-family:"Mochiy Pop One","Dela Gothic One",sans-serif;font-weight:400;
+    font-size:clamp(34px,10.5vw,48px);line-height:1.1;letter-spacing:.03em;
+    color:#fff;
+    -webkit-text-stroke:8px #ee7fab;paint-order:stroke fill;
+    text-shadow:0 0 0 #fff,3px 4px 0 #fbc6da;
+    display:inline-block;
+  }
+  .h-jp{display:block;margin-top:8px;font-family:"Mochiy Pop One",sans-serif;font-size:13px;letter-spacing:.2em;color:var(--blue-deep)}
+  .h-sub{
+    display:inline-flex;align-items:center;margin-top:10px;
+    font-family:Montserrat,sans-serif;font-weight:800;font-size:10.5px;letter-spacing:.32em;
+    background:var(--blue-deep);color:#fff;border-radius:999px;padding:5px 13px 5px 16px;
+    box-shadow:0 0 0 3px #fff,0 0 0 5px var(--blue);
+  }
+  /* 제목 반짝임: 은은한 빛줄기가 글자 위를 지나감 */
+  h1{position:relative}
+  h1::after{
+    content:attr(data-text);position:absolute;inset:0;
+    -webkit-text-stroke:0;text-shadow:none;color:transparent;
+    background:linear-gradient(105deg,transparent 0 38%,rgba(255,255,255,.95) 46%,rgba(255,214,230,.95) 50%,rgba(255,255,255,.95) 54%,transparent 62% 100%) no-repeat;
+    background-size:250% 100%;background-position:150% 0;
+    -webkit-background-clip:text;background-clip:text;
+    animation:shimmer 5.5s ease-in-out infinite;pointer-events:none;
+  }
+  @keyframes shimmer{0%,55%{background-position:150% 0}85%,100%{background-position:-60% 0}}
+
+  /* 장식 애니메이션 */
+  .deco{position:absolute;pointer-events:none;transform:rotate(var(--r,0deg))}
+  .deco.f1{--r:-12deg;width:20px;left:5%;top:16px;animation:sway 4.2s ease-in-out infinite}
+  .deco.f2{--r:0deg;width:22px;right:9%;top:10px;animation:sway 3.6s ease-in-out infinite -1.2s}
+  .deco.f3{--r:20deg;width:16px;right:3%;top:66px;animation:sway 3s ease-in-out infinite -.6s}
+  .deco.bubble{--r:-8deg;width:40px;left:1%;top:62px;animation:bob 3.2s ease-in-out infinite}
+  .deco.bubble .heart{transform-box:fill-box;transform-origin:center;animation:beat 1.6s ease-in-out infinite}
+  .deco.spark{width:12px;left:20%;top:6px;animation:twinkle 2.4s ease-in-out infinite}
+  .deco.spark.s2{width:16px;left:auto;right:17%;top:58px;animation-delay:-.8s}
+  .deco.spark.s3{width:8px;left:13%;top:48px;animation-delay:-1.6s}
+  .deco.spark.s4{width:9px;left:auto;right:24%;top:2px;animation-delay:-2s;animation-duration:3s}
+  @keyframes sway{0%,100%{transform:rotate(calc(var(--r) - 10deg)) translateY(0)}50%{transform:rotate(calc(var(--r) + 10deg)) translateY(-3px)}}
+  @keyframes twirl{to{transform:rotate(calc(var(--r) + 360deg))}}
+  @keyframes bob{0%,100%{transform:rotate(var(--r)) translateY(0)}50%{transform:rotate(calc(var(--r) + 4deg)) translateY(-5px)}}
+  @keyframes beat{0%,100%{transform:scale(1)}15%{transform:scale(1.18)}30%{transform:scale(.96)}45%{transform:scale(1.1)}}
+  @keyframes twinkle{0%,100%{opacity:.2;transform:scale(.55) rotate(0deg)}50%{opacity:1;transform:scale(1) rotate(45deg)}}
+
+  /* 트랙 수 태그도 살짝 흔들 */
+  @keyframes tagwiggle{0%,100%{transform:rotate(6deg)}50%{transform:rotate(2deg) translateY(-2px)}}
+
+  @media (prefers-reduced-motion:reduce){
+    h1::after,.deco,.deco.bubble .heart,.tracklist .tag{animation:none !important}
+  }
+
+  /* ---------- 스티커 카드 ---------- */
+  .card{
+    position:relative;background:#fff;border-radius:22px;
+    border:2px solid var(--blue);
+    box-shadow:0 0 0 5px #fff,0 0 0 7px rgba(169,213,241,.55),0 12px 26px rgba(63,143,196,.14);
+  }
+
+  /* ---------- 큰 CD ---------- */
+  .stage{position:relative;display:grid;place-items:center;padding:26px 0 12px}
+  .disc{
+    position:relative;width:min(74vw,290px);aspect-ratio:1;border-radius:50%;
+    /* 은색 바탕 + 무지개 반사광: 실제 CD처럼 빛은 제자리에 있고 */
+    background:
+      radial-gradient(circle at center,
+        transparent 0 33%,rgba(255,255,255,.5) 33% 33.6%,transparent 33.6% 96.5%,#fff 96.5% 100%),
+      repeating-radial-gradient(circle at center,rgba(255,255,255,0) 0 2px,rgba(255,255,255,.08) 2px 3px),
+      conic-gradient(from 200deg,
+        #dfe5ea,#cbe9fb 6%,#f9fafb 12%,#c3ccd5 22%,#fbf3c6 28%,#fde2e8 32%,#f2f4f6 38%,
+        #bac6d1 50%,#cfeafb 56%,#f9fafb 62%,#c3ccd5 72%,#fbf3c6 78%,#fde2e8 82%,#eef1f4 88%,#dfe5ea);
+    box-shadow:0 0 0 2px var(--blue),0 0 0 6px #fff,0 0 0 8px rgba(169,213,241,.55),0 18px 34px rgba(50,90,120,.22);
+  }
+  /* 회전하는 부분: 인쇄된 라벨과 표면 무늬만 돈다 */
+  .spinner{position:absolute;inset:0;border-radius:50%;will-change:transform}
+  .spinner .marks{position:absolute;inset:0;width:100%;height:100%}
+  .label{
+    position:absolute;inset:0;margin:auto;width:56%;height:56%;border-radius:50%;overflow:hidden;
+    background:radial-gradient(circle at 12px 12px,rgba(255,255,255,.8) 0 5px,transparent 5.5px) 0 0/24px 24px,#f9c3d7;
+    box-shadow:0 0 0 3px #fff;
+  }
+  .label svg.ring{position:absolute;inset:0;width:100%;height:100%}
+  .label .center{
+    position:absolute;left:50%;top:30%;transform:translateX(-50%);
+    font-family:"Mochiy Pop One",sans-serif;font-size:clamp(11px,3.4vw,14px);letter-spacing:.04em;
+    color:#fff;-webkit-text-stroke:3.5px #ee7fab;paint-order:stroke fill;white-space:nowrap;
+  }
+  .label .center-img{position:absolute;left:50%;top:9%;transform:translateX(-50%);width:66%;max-height:36%;object-fit:contain;display:block}
+  .label.has-img .center,.label.has-img .lf,.label.has-img .lf2{display:none}
+  .label .lf{position:absolute;width:20%;left:22%;bottom:20%}
+  .label .lf2{position:absolute;width:13%;right:24%;bottom:22%}
+  .hub{
+    position:absolute;inset:0;margin:auto;width:17%;height:17%;border-radius:50%;
+    background:radial-gradient(circle,transparent 0 52%,#fff 52% 60%,#dfe5ea 60% 100%);z-index:2;
+  }
+  .hole{
+    position:absolute;inset:0;margin:auto;width:9%;height:9%;border-radius:50%;
+    background:var(--paper);box-shadow:0 1px 3px rgba(40,60,80,.35) inset;z-index:4;
+  }
+  /* 고정된 빛 반사 */
+  .gloss{
+    position:absolute;inset:0;border-radius:50%;pointer-events:none;z-index:3;
+    background:
+      linear-gradient(125deg,rgba(255,255,255,.55) 0%,rgba(255,255,255,0) 30%),
+      linear-gradient(305deg,rgba(255,255,255,.35) 0%,rgba(255,255,255,0) 28%),
+      conic-gradient(from 300deg,rgba(255,255,255,0) 0deg,rgba(255,255,255,.45) 12deg,rgba(255,255,255,0) 26deg,
+        rgba(255,255,255,0) 180deg,rgba(255,255,255,.35) 192deg,rgba(255,255,255,0) 206deg);
+    -webkit-mask:radial-gradient(circle,transparent 0 28%,#000 29%);
+            mask:radial-gradient(circle,transparent 0 28%,#000 29%);
+  }
+
+  /* ---------- 재생 카드 ---------- */
+  .now{margin-top:20px;padding:20px 20px 16px;text-align:center}
+  .now .no{
+    display:inline-block;font-family:Montserrat,sans-serif;font-size:11px;font-weight:800;letter-spacing:.25em;
+    background:var(--yellow);color:var(--ink);border-radius:6px;padding:3px 9px 3px 12px;
+  }
+  .now .title{font-size:20px;font-weight:700;margin:10px 0 3px;line-height:1.35;word-break:keep-all}
+  .now .sub{font-size:12.5px;color:var(--ink-soft);min-height:1.2em}
+
+  .progress{margin:16px 2px 2px}
+  input[type=range]{
+    -webkit-appearance:none;appearance:none;width:100%;height:6px;border-radius:6px;outline:none;cursor:pointer;
+    background:linear-gradient(90deg,var(--blue-mid) var(--p,0%),#e3e8ec var(--p,0%));
+  }
+  input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none;width:18px;height:18px;border-radius:50%;
+    background:#fff;border:3px solid var(--ink);
+  }
+  input[type=range]::-moz-range-thumb{width:12px;height:12px;border-radius:50%;background:#fff;border:3px solid var(--ink)}
+  .times{display:flex;justify-content:space-between;font-family:Montserrat,sans-serif;font-weight:500;font-size:11px;color:var(--ink-soft);margin-top:7px}
+
+  .controls{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:8px}
+  .btn{
+    border:none;cursor:pointer;display:grid;place-items:center;border-radius:50%;
+    background:#fff;color:var(--ink);box-shadow:0 0 0 2px var(--ink);
+    transition:transform .12s ease;-webkit-tap-highlight-color:transparent;
+  }
+  .btn:active{transform:scale(.93)}
+  .btn svg{width:20px;height:20px;fill:currentColor}
+  .btn.sm{width:44px;height:44px}
+  .btn.side{width:36px;height:36px;color:var(--gray);box-shadow:0 0 0 2px #dfe5ea}
+  .btn.side svg{width:16px;height:16px}
+  .btn.side.on{color:var(--blue-deep);box-shadow:0 0 0 2px var(--blue)}
+  .btn.main{
+    width:64px;height:64px;background:var(--blue);color:var(--ink);
+    box-shadow:0 0 0 2px var(--ink),0 0 0 6px #fff,0 0 0 8px var(--blue);
+  }
+  .btn.main svg{width:26px;height:26px}
+  .btn.main.nudge{animation:nudge 1.2s ease-in-out infinite}
+  @keyframes nudge{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+  .repeat-wrap{position:relative}
+  .repeat-one{
+    position:absolute;top:-6px;right:-6px;width:15px;height:15px;border-radius:50%;
+    background:var(--pink);color:#fff;font-family:Montserrat,sans-serif;font-size:9px;font-weight:800;
+    display:none;place-items:center;
+  }
+  .repeat-wrap.one .repeat-one{display:grid}
+
+  /* 볼륨 */
+  .volume{display:flex;align-items:center;gap:10px;margin:14px auto 0;max-width:260px}
+  .vol-btn{
+    flex:none;width:32px;height:32px;border:none;background:none;cursor:pointer;color:var(--ink);
+    display:grid;place-items:center;border-radius:50%;-webkit-tap-highlight-color:transparent;
+  }
+  .vol-btn:hover{background:var(--blue-pale)}
+  .vol-btn svg{width:20px;height:20px;fill:currentColor}
+  .volume input[type=range]{height:5px}
+  .volume input[type=range]::-webkit-slider-thumb{width:15px;height:15px;border-width:2.5px}
+  .vol-num{flex:none;width:26px;text-align:right;font-family:Montserrat,sans-serif;font-size:11px;font-weight:500;color:var(--ink-soft)}
+  .volume.ios input,.volume.ios .vol-num{display:none}
+  .volume.ios{justify-content:center}
+
+  .notice{
+    display:none;margin-top:12px;text-align:left;font-size:12.5px;line-height:1.6;color:var(--ink);
+    background:var(--blue-pale);border-radius:12px;padding:10px 12px
+  }
+  .notice.show{display:block}
+  .notice a{color:var(--blue-deep);font-weight:700}
+
+  /* ---------- 트랙리스트 ---------- */
+  .tracklist{margin-top:22px;padding:20px 8px 8px}
+  .tracklist h2{
+    font-family:"Mochiy Pop One",sans-serif;font-weight:400;font-size:19px;letter-spacing:.06em;
+    text-align:center;margin-bottom:8px;color:#fff;
+    -webkit-text-stroke:6px #ee7fab;paint-order:stroke fill;text-shadow:2px 3px 0 #fbc6da;
+  }
+  .tracklist .tag{
+    position:absolute;top:-13px;right:18px;transform:rotate(6deg);
+    background:var(--oto);color:#fff;font-family:Montserrat,sans-serif;font-size:10px;font-weight:800;letter-spacing:.15em;
+    padding:4px 10px;border-radius:6px;box-shadow:0 0 0 3px #fff;
+    animation:tagwiggle 2.8s ease-in-out infinite;
+  }
+  ol{list-style:none}
+  li button{
+    width:100%;display:grid;grid-template-columns:32px 1fr 22px;align-items:center;gap:8px;
+    text-align:left;background:none;border:none;cursor:pointer;color:inherit;font:inherit;
+    padding:9px 12px;border-radius:12px;transition:background .15s;-webkit-tap-highlight-color:transparent;
+  }
+  li button:hover{background:#f3f8fc}
+  li + li button{border-top:1.5px dashed #e1e7ec;border-radius:0}
+  li + li button:hover{border-radius:12px}
+  .tn{font-family:Montserrat,sans-serif;font-size:13px;font-weight:800;color:var(--gray)}
+  .tt{font-size:14px;font-weight:700;line-height:1.3;word-break:keep-all}
+  .ts{display:block;font-size:11px;color:var(--ink-soft);margin-top:1px}
+  .tb{display:block;font-size:10.5px;color:#d0708a;margin-top:2px}
+  li.active button{background:var(--blue-pale);border-radius:12px;box-shadow:inset 4px 0 0 var(--blue-mid)}
+  li:nth-child(5n+1) .tn{color:#e0861a}
+  li:nth-child(5n+2) .tn{color:#cc2027}
+  li:nth-child(5n+3) .tn{color:#4a2d4f}
+  li:nth-child(5n+4) .tn{color:#3fa3d6}
+  li:nth-child(5n+5) .tn{color:#5e9a00}
+  li.active + li button{border-top-color:transparent}
+
+  .eq{display:flex;gap:2px;align-items:flex-end;height:14px;opacity:0}
+  .eq i{display:block;width:3px;border-radius:2px;height:4px;background:var(--koyo)}
+  .eq i:nth-child(2){background:var(--nino)}
+  .eq i:nth-child(3){background:#7fd0f5}
+  li.active .eq{opacity:1}
+  li.active.playing .eq i{animation:eq .9s ease-in-out infinite}
+  li.active.playing .eq i:nth-child(2){animation-delay:.2s}
+  li.active.playing .eq i:nth-child(3){animation-delay:.4s}
+  @keyframes eq{0%,100%{height:4px}50%{height:14px}}
+
+  /* ---------- 영상 카드 (유튜브 규정: 최소 200x200, 가리기 금지) ---------- */
+  .screen{margin-top:22px;padding:10px}
+  .screen .frame{position:relative;width:100%;aspect-ratio:16/9;min-height:200px;border-radius:14px;overflow:hidden;background:var(--blue-pale)}
+  .screen .frame iframe,.screen .frame #yt{position:absolute;inset:0;width:100%;height:100%;border:0}
+  .screen .cap{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:11px;color:var(--ink-soft);padding:10px 4px 2px}
+  .yt-link{
+    display:inline-flex;align-items:center;gap:6px;flex:none;
+    font-size:12px;font-weight:700;color:var(--blue-deep);text-decoration:none;
+    background:var(--blue-pale);border-radius:999px;padding:6px 12px;
+  }
+  .yt-link svg{width:14px;height:14px;fill:currentColor}
+
+  /* ---------- 멤버 컬러 별 (페이지 곳곳에 둥실둥실) ---------- */
+  .stars{position:absolute;inset:0;pointer-events:none;z-index:4}
+  .stars svg{position:absolute;filter:drop-shadow(0 2px 3px rgba(150,80,110,.18));
+    animation:starfloat var(--d,4s) ease-in-out infinite var(--dl,0s)}
+  .stars svg.spin{animation:starfloat var(--d,4s) ease-in-out infinite var(--dl,0s),starspin 9s linear infinite}
+  @keyframes starfloat{
+    0%,100%{translate:0 0;scale:1;rotate:var(--r,0deg)}
+    50%{translate:0 -7px;scale:1.12;rotate:calc(var(--r,0deg) + 14deg)}
+  }
+  @keyframes starspin{to{transform:rotate(360deg)}}
+  @media (prefers-reduced-motion:reduce){.stars svg{animation:none}}
+
+  footer{text-align:center;font-size:10.5px;line-height:1.7;color:var(--gray);margin-top:30px}
+  footer .logo{font-family:Montserrat,sans-serif;font-weight:800;letter-spacing:.3em;font-size:10px;margin-bottom:4px;color:var(--ink-soft)}
+</style>
+</head>
+<body>
+
+<!-- 재사용 장식 -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="flower" viewBox="0 0 40 40">
+      <g stroke="#fff" stroke-width="2.5">
+        <circle cx="20" cy="9" r="8"/><circle cx="30.5" cy="16.6" r="8"/><circle cx="26.5" cy="29" r="8"/>
+        <circle cx="13.5" cy="29" r="8"/><circle cx="9.5" cy="16.6" r="8"/>
+      </g>
+      <g stroke="none">
+        <circle cx="20" cy="9" r="8"/><circle cx="30.5" cy="16.6" r="8"/><circle cx="26.5" cy="29" r="8"/>
+        <circle cx="13.5" cy="29" r="8"/><circle cx="9.5" cy="16.6" r="8"/>
+      </g>
+      <circle cx="20" cy="20" r="5" fill="#fff"/>
+    </symbol>
+    <symbol id="star" viewBox="0 0 40 40">
+      <path d="M20 3 L25 14.5 L37.5 15.5 L28 24 L31 36.5 L20 30 L9 36.5 L12 24 L2.5 15.5 L15 14.5 Z" stroke="#fff" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke"/>
+    </symbol>
+    <symbol id="rstar" viewBox="0 0 48 48">
+      <path d="M24 6 L29.5 18 L42.5 19.3 L32.7 28 L35.6 40.8 L24 34.2 L12.4 40.8 L15.3 28 L5.5 19.3 L18.5 18 Z" fill="currentColor" stroke="#fff" stroke-width="10" stroke-linejoin="round" paint-order="stroke"/>
+      <path d="M24 6 L29.5 18 L42.5 19.3 L32.7 28 L35.6 40.8 L24 34.2 L12.4 40.8 L15.3 28 L5.5 19.3 L18.5 18 Z" fill="currentColor" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/>
+      <ellipse cx="19" cy="18.5" rx="3.2" ry="2" fill="#fff" opacity=".55" transform="rotate(-30 19 18.5)"/>
+    </symbol>
+    <symbol id="bolt" viewBox="0 0 30 40">
+      <path d="M17 2 L4 23 H14 L10 38 L26 14 H16 L21 2 Z" stroke="#fff" stroke-width="3" stroke-linejoin="round" paint-order="stroke"/>
+    </symbol>
+    <symbol id="spark" viewBox="0 0 20 20">
+      <path d="M10 0 L12 8 L20 10 L12 12 L10 20 L8 12 L0 10 L8 8 Z"/>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- 배경 리본 -->
+<div class="bg" aria-hidden="true">
+  <svg class="r1" viewBox="0 0 1000 300" preserveAspectRatio="none">
+    <path d="M-20 240 C 200 80, 380 60, 520 150 S 820 260, 1020 70" fill="none" stroke="#fbc6da" stroke-width="26" stroke-linecap="round"/>
+    <path d="M-20 240 C 200 80, 380 60, 520 150 S 820 260, 1020 70" fill="none" stroke="#bfe6fb" stroke-width="26" stroke-dasharray="120 160 60 240"/>
+    <path d="M-20 240 C 200 80, 380 60, 520 150 S 820 260, 1020 70" fill="none" stroke="#f6a43c" stroke-width="26" stroke-dasharray="40 540" stroke-dashoffset="-180"/>
+  </svg>
+  <svg class="r2" viewBox="0 0 1000 300" preserveAspectRatio="none">
+    <path d="M-20 200 C 220 40, 420 280, 640 160 S 900 40, 1020 120" fill="none" stroke="#d9c4dc" stroke-width="22" stroke-linecap="round"/>
+    <path d="M-20 200 C 220 40, 420 280, 640 160 S 900 40, 1020 120" fill="none" stroke="#c9f77a" stroke-width="22" stroke-dasharray="90 210"/>
+  </svg>
+</div>
+
+<div class="wrap">
+  <div class="dots" aria-hidden="true"></div>
+  <div class="stripe" aria-hidden="true"></div>
+
+  <header>
+    <svg class="deco f1" viewBox="0 0 30 40" fill="#ffe066" aria-hidden="true"><use href="#bolt"/></svg>
+    <svg class="deco f2" viewBox="0 0 48 48" style="color:var(--iro)" aria-hidden="true"><use href="#rstar"/></svg>
+    <svg class="deco f3" viewBox="0 0 30 40" fill="#ffe066" aria-hidden="true"><use href="#bolt"/></svg>
+    <svg class="deco spark" viewBox="0 0 20 20" fill="#f08bb2" aria-hidden="true"><use href="#spark"/></svg>
+    <svg class="deco spark s2" viewBox="0 0 48 48" style="color:var(--robo)" aria-hidden="true"><use href="#rstar"/></svg>
+    <svg class="deco spark s3" viewBox="0 0 20 20" fill="#f6a43c" aria-hidden="true"><use href="#spark"/></svg>
+    <svg class="deco spark s4" viewBox="0 0 20 20" fill="#7fd0f5" aria-hidden="true"><use href="#spark"/></svg>
+    <svg class="deco bubble" viewBox="0 0 60 56" aria-hidden="true">
+      <path d="M30 4 C 46 4, 56 14, 56 26 S 46 48, 30 48 C 26 48, 22 47, 19 46 L 8 53 L 11 42 C 6 38, 4 32, 4 26 C 4 14, 14 4, 30 4 Z" fill="#fff" stroke="#f6b3cb" stroke-width="3"/>
+      <path class="heart" d="M30 35 C 22 29, 19 25, 21 21 C 23 17, 28 18, 30 22 C 32 18, 37 17, 39 21 C 41 25, 38 29, 30 35 Z" fill="#f08bb2"/>
+    </svg>
+
+    <h1 data-text="SKOSHISM">SKOSHISM</h1>
+    <span class="h-jp">スコシズム</span>
+    <div class="h-sub">ORIGINAL SONGS</div>
+  </header>
+
+  <!-- 큰 CD -->
+  <div class="stage">
+    <div class="disc" id="disc">
+      <div class="spinner" id="spinner">
+        <svg class="marks" viewBox="0 0 200 200" aria-hidden="true">
+          <circle cx="100" cy="100" r="78" fill="none" stroke="rgba(255,255,255,.75)" stroke-width="1.2" stroke-dasharray="34 456" stroke-linecap="round"/>
+          <circle cx="100" cy="100" r="88" fill="none" stroke="rgba(246,164,60,.5)" stroke-width="1" stroke-dasharray="18 535" stroke-dashoffset="-260" stroke-linecap="round"/>
+          <circle cx="100" cy="100" r="68" fill="none" stroke="rgba(180,255,26,.6)" stroke-width="1" stroke-dasharray="12 415" stroke-dashoffset="-140" stroke-linecap="round"/>
+        </svg>
+        <div class="label">
+          <svg class="ring" viewBox="0 0 200 200" aria-hidden="true">
+            <defs><path id="ring" d="M100,100 m-80,0 a80,80 0 1,1 160,0 a80,80 0 1,1 -160,0"/></defs>
+            <text font-family="Montserrat, sans-serif" font-size="12" font-weight="800" letter-spacing="2.6" fill="#2b2230">
+              <textPath href="#ring">SKOSHISM ✦ スコシズム ✦ ORIGINAL SONGS ✦ SKOSHISM ✦ スコシズム ✦</textPath>
+            </text>
+          </svg>
+          <div class="center">SKOSHISM</div>
+          <img class="center-img" src="center.png" alt="" onload="this.parentNode.classList.add('has-img')" onerror="this.remove()">
+          <svg class="lf" viewBox="0 0 40 40" fill="#f08bb2" aria-hidden="true"><use href="#star"/></svg>
+          <svg class="lf2" viewBox="0 0 30 40" fill="#ffe066" aria-hidden="true"><use href="#bolt"/></svg>
+        </div>
+        <div class="hub"></div>
+      </div>
+      <div class="gloss"></div>
+      <div class="hole"></div>
+    </div>
+  </div>
+
+  <!-- 재생 카드 -->
+  <section class="card now" aria-live="polite">
+    <div class="no" id="nowNo">TRACK 01</div>
+    <div class="title" id="nowTitle">—</div>
+    <div class="sub" id="nowSub"></div>
+
+    <div class="progress">
+      <input type="range" id="seek" min="0" max="1000" value="0" aria-label="재생 위치">
+      <div class="times"><span id="cur">0:00</span><span id="dur">0:00</span></div>
+    </div>
+
+    <div class="controls">
+      <button class="btn side" id="shuffleBtn" aria-label="셔플">
+        <svg viewBox="0 0 24 24"><path d="M10.6 9.2 5.4 4 4 5.4l5.2 5.2 1.4-1.4ZM14.5 4l2 2L4 18.6 5.4 20 18 7.5l2 2V4h-5.5Zm.3 9.4-1.4 1.4 3.1 3.1L14.5 20H20v-5.5l-2 2-3.2-3.1Z"/></svg>
+      </button>
+      <button class="btn sm" id="prevBtn" aria-label="이전 곡">
+        <svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zM9.5 12 18 18V6z"/></svg>
+      </button>
+      <button class="btn main" id="playBtn" aria-label="재생">
+        <svg viewBox="0 0 24 24" id="playIcon"><path d="M8 5v14l11-7z"/></svg>
+      </button>
+      <button class="btn sm" id="nextBtn" aria-label="다음 곡">
+        <svg viewBox="0 0 24 24"><path d="M16 6h2v12h-2zM6 18l8.5-6L6 6z"/></svg>
+      </button>
+      <div class="repeat-wrap" id="repeatWrap">
+        <button class="btn side on" id="repeatBtn" aria-label="반복: 전체">
+          <svg viewBox="0 0 24 24"><path d="M7 7h10v3l4-4-4-4v3H5v6h2V7Zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4Z"/></svg>
+        </button>
+        <span class="repeat-one">1</span>
+      </div>
+    </div>
+
+    <div class="volume" id="volume">
+      <button class="vol-btn" id="muteBtn" aria-label="음소거">
+        <svg viewBox="0 0 24 24" id="volIcon"></svg>
+      </button>
+      <input type="range" id="vol" min="0" max="100" value="80" aria-label="볼륨">
+      <span class="vol-num" id="volNum">80</span>
+    </div>
+
+    <div class="notice" id="notice"></div>
+  </section>
+
+  <!-- 트랙리스트 -->
+  <section class="card tracklist">
+    <span class="tag" id="trackTag">6 TRACKS</span>
+    <h2>TRACK LIST</h2>
+    <ol id="list"></ol>
+  </section>
+
+  <!-- 영상 -->
+  <section class="card screen" id="screen">
+    <div class="frame"><div id="yt"></div></div>
+    <div class="cap">
+      <span>▶ Playing on YouTube</span>
+      <a class="yt-link" id="ytLink" href="#" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><path d="M21.6 7.2a2.5 2.5 0 0 0-1.8-1.8C18.2 5 12 5 12 5s-6.2 0-7.8.4A2.5 2.5 0 0 0 2.4 7.2 26 26 0 0 0 2 12a26 26 0 0 0 .4 4.8 2.5 2.5 0 0 0 1.8 1.8C5.8 19 12 19 12 19s6.2 0 7.8-.4a2.5 2.5 0 0 0 1.8-1.8A26 26 0 0 0 22 12a26 26 0 0 0-.4-4.8ZM10 15V9l5.2 3L10 15Z"/></svg>
+        YouTube에서 보기 ↗
+      </a>
+    </div>
+  </section>
+
+  <div class="stars" aria-hidden="true">
+    <svg viewBox="0 0 48 48" style="top:1.2%;right:2%;width:20px;color:var(--nino);--d:4.2s;--dl:-1s;--r:-10deg"><use href="#rstar"/></svg>
+    <svg viewBox="0 0 48 48" style="top:9%;left:-2px;width:22px;color:var(--koyo);--d:4.8s;--dl:-2.2s;--r:12deg"><use href="#rstar"/></svg>
+    <svg class="spin" viewBox="0 0 48 48" style="top:16%;right:-4px;width:26px;color:var(--iro);--d:5.2s;--dl:-.4s;--r:0deg"><use href="#rstar"/></svg>
+    <svg viewBox="0 0 48 48" style="top:24%;left:4%;width:16px;color:var(--robo);--d:3.8s;--dl:-1.6s;--r:-18deg"><use href="#rstar"/></svg>
+    <svg viewBox="0 0 48 48" style="top:33%;right:6%;width:18px;color:var(--oto);--d:4.4s;--dl:-3s;--r:8deg"><use href="#rstar"/></svg>
+    <svg class="spin" viewBox="0 0 48 48" style="top:44%;left:-6px;width:24px;color:var(--nino);--d:5s;--dl:-.8s;--r:20deg"><use href="#rstar"/></svg>
+    <svg viewBox="0 0 48 48" style="top:55%;right:-6px;width:20px;color:var(--robo);--d:4.6s;--dl:-2.6s;--r:-6deg"><use href="#rstar"/></svg>
+    <svg viewBox="0 0 48 48" style="top:66%;left:2%;width:18px;color:var(--iro);--d:4s;--dl:-1.2s;--r:14deg"><use href="#rstar"/></svg>
+    <svg class="spin" viewBox="0 0 48 48" style="top:77%;right:3%;width:22px;color:var(--koyo);--d:5.4s;--dl:-.2s;--r:-14deg"><use href="#rstar"/></svg>
+    <svg viewBox="0 0 48 48" style="top:88%;left:-4px;width:20px;color:var(--oto);--d:4.3s;--dl:-2s;--r:6deg"><use href="#rstar"/></svg>
+    <svg viewBox="0 0 48 48" style="top:95%;right:12%;width:16px;color:var(--nino);--d:3.9s;--dl:-3.4s;--r:-20deg"><use href="#rstar"/></svg>
+  </div>
+
+  <footer>
+    <div class="logo">SKOSHISM · ORIGINAL SONGS</div>
+    모든 곡은 YouTube 공식 플레이어로 재생됩니다.<br>
+    원곡과 커버 영상의 권리는 각 권리자에게 있습니다.
+  </footer>
+</div>
+
+<script>
+/* =========================================================
+   트랙 목록 — 곡을 추가/수정하려면 여기만 고치면 돼요.
+   id = 유튜브 링크의 영상 ID (youtu.be/ 뒤, ? 앞 부분)
+   sub = 일본어 원제 · 원곡 아티스트 (원제가 제목과 같으면 아티스트만)
+   ========================================================= */
+const TRACKS = [
+  { id: "vGMN7cB7r-o", title: "Flying",      sub: "SKOSHISM" },
+  { id: "LsNhxlYvSRk", title: "Mirai Line",  sub: "SKOSHISM" },
+  { id: "USvk_0xzRps", title: "서광",         sub: "SKOSHISM" },
+  { id: "Uyu678DFpAs", title: "HEART SPACE", sub: "HEART ver. · SKOSHISM" },
+  { id: "fKrSn2dYPSE", title: "トロイメライ", sub: "SKOSHISM" },
+  { id: "yuQ01P-iZ9s", title: "HEART SPACE", sub: "SPACE ver. · SKOSHISM" },
+];
+
+/* ---------- state ---------- */
+let player = null, ready = false, current = 0, isPlaying = false;
+let repeatMode = "all";   // "all" | "one" | "off"
+let shuffle = false, order = TRACKS.map((_, i) => i);
+let skipTimer = null, seeking = false;
+let screenVisible = false;   // 영상 카드가 화면에 절반 이상 보이는지
+
+const $ = s => document.getElementById(s);
+const pad = n => String(n + 1).padStart(2, "0");
+const fmt = t => { t = Math.max(0, Math.floor(t || 0)); return Math.floor(t / 60) + ":" + String(t % 60).padStart(2, "0"); };
+const ytUrl = id => "https://www.youtube.com/watch?v=" + id;
+
+$("trackTag").textContent = TRACKS.length + " TRACKS";
+
+/* 유튜브 규정: 자동 재생(다음 곡 자동 넘김)은 플레이어가 화면에 절반 이상 보일 때만 */
+if ("IntersectionObserver" in window) {
+  new IntersectionObserver(es => es.forEach(e => { screenVisible = e.intersectionRatio >= 0.5; }),
+    { threshold: [0, 0.5, 1] }).observe($("screen"));
+} else {
+  screenVisible = true;
+}
+
+/* ---------- track list ---------- */
+function renderList() {
+  const ol = $("list");
+  ol.innerHTML = "";
+  TRACKS.forEach((t, i) => {
+    const li = document.createElement("li");
+    li.innerHTML =
+      `<button type="button">
+         <span class="tn">${pad(i)}</span>
+         <span><span class="tt"></span><span class="ts"></span>${t.blocked ? '<span class="tb">YouTube에서만 재생 가능</span>' : ""}</span>
+         <span class="eq"><i></i><i></i><i></i></span>
+       </button>`;
+    li.querySelector(".tt").textContent = t.title;
+    li.querySelector(".ts").textContent = t.sub;
+    li.querySelector("button").addEventListener("click", () => {
+      if (i === current && ready) togglePlay(); else playTrack(i, true);
+    });
+    ol.appendChild(li);
+  });
+  markActive();
+}
+function markActive() {
+  [...$("list").children].forEach((li, i) => {
+    li.classList.toggle("active", i === current);
+    li.classList.toggle("playing", i === current && isPlaying);
+  });
+}
+function showNow() {
+  const t = TRACKS[current];
+  $("nowNo").textContent = "TRACK " + pad(current);
+  $("nowTitle").textContent = t.title;
+  $("nowSub").textContent = t.sub;
+  $("ytLink").href = ytUrl(t.id);
+  $("cur").textContent = "0:00"; $("dur").textContent = "0:00";
+  setSeek(0);
+  hideNotice();
+  $("playBtn").classList.remove("nudge");
+}
+
+/* ---------- playback ---------- */
+function playTrack(i, autoplay) {
+  clearTimeout(skipTimer);
+  current = i;
+  showNow(); markActive();
+  if (!ready) return;
+  if (autoplay) player.loadVideoById(TRACKS[i].id);
+  else player.cueVideoById(TRACKS[i].id);
+}
+function togglePlay() {
+  if (!ready) return;
+  $("playBtn").classList.remove("nudge");
+  if (isPlaying) player.pauseVideo(); else player.playVideo();
+}
+function nextIndex(dir) {
+  const pos = order.indexOf(current);
+  let np = pos + dir;
+  if (np >= order.length) { if (repeatMode === "off" && dir > 0) return -1; np = 0; }
+  if (np < 0) np = order.length - 1;
+  return order[np];
+}
+/* auto = 곡이 끝나서 자동으로 넘어가는 경우 */
+function next(auto) {
+  const n = nextIndex(1);
+  if (n === -1) { setPlaying(false); return; }
+  if (auto && !screenVisible) {
+    playTrack(n, false);   // 다음 곡을 준비만 해 두고
+    showNotice(`다음 곡 <b>${TRACKS[n].title}</b> 준비 완료! ▶ 버튼을 눌러 주세요.<br><small>영상 창이 화면에 보이면 자동으로 이어서 재생돼요.</small>`);
+    $("playBtn").classList.add("nudge");
+    return;
+  }
+  playTrack(n, true);
+}
+function prev() {
+  if (ready && player.getCurrentTime && player.getCurrentTime() > 3) { player.seekTo(0, true); return; }
+  playTrack(nextIndex(-1), true);
+}
+/* ---------- CD 회전: 재생하면 서서히 빨라지고, 멈추면 서서히 느려짐 ---------- */
+const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const spin = $("spinner").animate(
+  [{ transform: "rotate(0deg)" }, { transform: "rotate(360deg)" }],
+  { duration: reduceMotion ? 8000 : 1800, iterations: Infinity }
+);
+spin.playbackRate = 0;
+let spinTarget = 0, spinRAF = null;
+function spinTo(target) {
+  spinTarget = target;
+  if (spinRAF) return;
+  const step = () => {
+    const r = spin.playbackRate, diff = spinTarget - r;
+    if (Math.abs(diff) < 0.01) { spin.playbackRate = spinTarget; spinRAF = null; return; }
+    spin.playbackRate = r + diff * (spinTarget > r ? 0.06 : 0.035);  // 감속이 더 천천히
+    spinRAF = requestAnimationFrame(step);
+  };
+  spinRAF = requestAnimationFrame(step);
+}
+
+function setPlaying(p) {
+  isPlaying = p;
+  spinTo(p ? 1 : 0);
+  $("playIcon").innerHTML = p
+    ? '<path d="M7 5h4v14H7zM13 5h4v14h-4z"/>'
+    : '<path d="M8 5v14l11-7z"/>';
+  $("playBtn").setAttribute("aria-label", p ? "일시정지" : "재생");
+  markActive();
+}
+
+/* ---------- progress ---------- */
+function setSeek(ratio) {
+  const s = $("seek");
+  s.value = Math.round(ratio * 1000);
+  s.style.setProperty("--p", (ratio * 100).toFixed(2) + "%");
+}
+function tick() {
+  if (!ready || seeking || !player.getDuration) return;
+  const d = player.getDuration() || 0, c = player.getCurrentTime() || 0;
+  $("dur").textContent = fmt(d);
+  $("cur").textContent = fmt(c);
+  setSeek(d ? c / d : 0);
+}
+$("seek").addEventListener("input", e => {
+  seeking = true;
+  const r = e.target.value / 1000;
+  e.target.style.setProperty("--p", (r * 100) + "%");
+  if (ready) $("cur").textContent = fmt(r * (player.getDuration() || 0));
+});
+$("seek").addEventListener("change", e => {
+  if (ready) player.seekTo((e.target.value / 1000) * (player.getDuration() || 0), true);
+  seeking = false;
+});
+
+/* ---------- volume ---------- */
+const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+  (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+let volume = 80, muted = false;
+try { const v = parseInt(localStorage.getItem("sko-vol"), 10); if (!isNaN(v)) volume = v; } catch (e) {}
+if (isIOS) $("volume").classList.add("ios");   // 아이폰은 기기 버튼으로만 볼륨 조절 가능 → 음소거만 표시
+
+const ICON_VOL  = '<path d="M3 9v6h4l5 5V4L7 9H3Zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4ZM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6Z"/>';
+const ICON_LOW  = '<path d="M5 9v6h4l5 5V4L9 9H5Zm13.5 3A4.5 4.5 0 0 0 16 8v8a4.5 4.5 0 0 0 2.5-4Z"/>';
+const ICON_MUTE = '<path d="M16.5 12A4.5 4.5 0 0 0 14 8v2.2l2.4 2.4.1-.6Zm2.5 0c0 .9-.2 1.8-.5 2.6l1.5 1.5A8.9 8.9 0 0 0 21 12a9 9 0 0 0-7-8.8v2.1a7 7 0 0 1 5 6.7ZM4.3 3 3 4.3 7.7 9H3v6h4l5 5v-6.7l4.3 4.3c-.7.5-1.4.9-2.3 1.2v2.1a9 9 0 0 0 3.7-1.8L19.7 21 21 19.7l-9-9L4.3 3ZM12 4 9.9 6.1 12 8.2V4Z"/>';
+
+function renderVol() {
+  const v = muted ? 0 : volume;
+  $("vol").value = v;
+  $("vol").style.setProperty("--p", v + "%");
+  $("volNum").textContent = v;
+  $("volIcon").innerHTML = (muted || volume === 0) ? ICON_MUTE : volume < 50 ? ICON_LOW : ICON_VOL;
+  $("muteBtn").setAttribute("aria-label", muted ? "음소거 해제" : "음소거");
+}
+function applyVol() {
+  if (!ready) return;
+  player.setVolume(volume);
+  if (muted || volume === 0) player.mute(); else player.unMute();
+}
+$("vol").addEventListener("input", e => {
+  volume = parseInt(e.target.value, 10);
+  muted = false;
+  renderVol(); applyVol();
+  try { localStorage.setItem("sko-vol", volume); } catch (err) {}
+});
+$("muteBtn").addEventListener("click", () => {
+  if (volume === 0) { volume = 50; muted = false; } else muted = !muted;
+  renderVol(); applyVol();
+});
+renderVol();
+
+/* ---------- notice ---------- */
+function showNotice(html) { const n = $("notice"); n.innerHTML = html; n.classList.add("show"); }
+function hideNotice() { $("notice").classList.remove("show"); }
+
+/* ---------- buttons ---------- */
+$("playBtn").addEventListener("click", togglePlay);
+$("nextBtn").addEventListener("click", () => next(false));
+$("prevBtn").addEventListener("click", prev);
+$("repeatBtn").addEventListener("click", () => {
+  repeatMode = repeatMode === "all" ? "one" : repeatMode === "one" ? "off" : "all";
+  const b = $("repeatBtn");
+  b.classList.toggle("on", repeatMode !== "off");
+  $("repeatWrap").classList.toggle("one", repeatMode === "one");
+  b.setAttribute("aria-label", "반복: " + ({ all: "전체", one: "한 곡", off: "끔" })[repeatMode]);
+});
+$("shuffleBtn").addEventListener("click", () => {
+  shuffle = !shuffle;
+  $("shuffleBtn").classList.toggle("on", shuffle);
+  if (shuffle) {
+    const rest = TRACKS.map((_, i) => i).filter(i => i !== current);
+    for (let i = rest.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [rest[i], rest[j]] = [rest[j], rest[i]]; }
+    order = [current, ...rest];
+  } else {
+    order = TRACKS.map((_, i) => i);
+  }
+});
+
+/* ---------- YouTube IFrame API ---------- */
+window.onYouTubeIframeAPIReady = function () {
+  player = new YT.Player("yt", {
+    videoId: TRACKS[0].id,
+    playerVars: { playsinline: 1, rel: 0 },
+    events: {
+      onReady: () => { ready = true; applyVol(); setInterval(tick, 500); },
+      onStateChange: e => {
+        const S = YT.PlayerState;
+        if (e.data === S.PLAYING) { setPlaying(true); hideNotice(); $("playBtn").classList.remove("nudge"); }
+        else if (e.data === S.PAUSED || e.data === S.CUED) setPlaying(false);
+        else if (e.data === S.ENDED) {
+          setPlaying(false);
+          if (repeatMode === "one") {
+            if (screenVisible) { player.seekTo(0, true); player.playVideo(); }
+            else { player.seekTo(0, true); player.pauseVideo(); $("playBtn").classList.add("nudge"); }
+          }
+          else next(true);
+        }
+      },
+      onError: e => {
+        const t = TRACKS[current];
+        setPlaying(false);
+        if (e.data === 101 || e.data === 150 || e.data === 153) {
+          t.blocked = true; renderList();
+          showNotice(`이 곡은 외부 사이트 재생이 막혀 있어요. <a href="${ytUrl(t.id)}" target="_blank" rel="noopener">YouTube에서 듣기 ↗</a><br>잠시 후 다음 곡으로 넘어갑니다.`);
+        } else {
+          showNotice(`영상을 불러오지 못했어요. <a href="${ytUrl(t.id)}" target="_blank" rel="noopener">YouTube에서 듣기 ↗</a>`);
+        }
+        const here = current;
+        skipTimer = setTimeout(() => { if (current === here) next(true); }, 5000);
+      }
+    }
+  });
+};
+
+/* ---------- init ---------- */
+renderList();
+showNow();
+(function loadYT() {
+  const s = document.createElement("script");
+  s.src = "https://www.youtube.com/iframe_api";
+  document.head.appendChild(s);
+})();
+</script>
+</body>
+</html>
